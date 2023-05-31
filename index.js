@@ -17,29 +17,7 @@ app.get('/', (req, res) =>{
 
 app.use('/', routes);
 
-// app.get('/route', (req, res) =>{
-//     console.log('welcome');
-// });
 
-// app.use(bodyParser.json({ limit: "50mb" }));
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: false,
-//     limit: "50mb",
-//   })
-// );
-
-
-//register routes
-// app.post('/register',async(req,res) => {
-//     try{
-//     const register =await register.create(req.body);
-//     res.status(200).json(register);
-//  }catch (error){
-//      console.log(error.message);
-//      res.status(500).json({message: error.message});
-//  }
-// });
 
 app.listen(3003,() => {
     console.log('listening on');

@@ -1,6 +1,6 @@
 const { user } = require('../config');
 const con = require('../database');
-const bcrypt = require('bcryptjs');
+const { Encrypt } = require('../auth');
 
 
 // function getUserList(req, res, next) {
@@ -13,53 +13,42 @@ getUserList = function(req, res) {
     });
 
 }
-postRegister = function(req, res) {
-        // console.log('req', req.body);
-        // exports.cryptPassword = function(password, callback) {
-        //     bcrypt.genSalt(10, function(err, salt) {
-        //      if (err) 
-        //        return callback(err);
-         
-        //      bcrypt.hash(password, salt, function(err, hash) {
-        //        return callback(err, hash);
-        //      });
-        //    });
-        //  };
-         
-        //  exports.comparePassword = function(plainPass, hashword, callback) {
-        //     bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {   
-        //         return err == null ?
-        //             callback(null, isPasswordMatch) :
-        //             callback(err);
-        //     });
-        //  };
-        
-        con.query( 'SELECT * FROM users WHERE email = "'+req.body.email+'"', function(err, result_data) {
-            console.log(result_data);
-            if (err)
-            {
-                console.log(err);
-                res.json(err)
-            }
-            if(result_data.length > 0) {
-                console.log("user already registered");
-                res.json({'code': 400, 'status': false, 'message':'User already registered .'})
-            } else{
-                var sql = "INSERT INTO users(first_name,last_name,email,address,city,state,country,zip_code,mobile,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                var values=
-                    [req.body.first_name,req.body.last_name,req.body.email,req.body.address,req.body.city,req.body.state,req.body.country,req.body.zip_code,req.body.mobile,req.body.password];
-                con.query(sql, values,function(err,result){
-                    if (err) throw err;
-                    console.log("insert successfully"+result);
-                    res.json({'code': 200, 'status': true, 'message':'User registered successfully.'})
-                });
-            }
-        });
+
+postRegister = async function(req, res) {
+    // console.log('req', req.body);
+    
+    con.query( 'SELECT * FROM users WHERE email = "'+req.body.email+'"', async function(err, result_data) {
+        // console.log(result_data);
+        if (err)
+        {
+            console.log(err);
+            res.json(err)
+        }
+        if(result_data.length > 0) {
+            console.log("user already registered");
+            res.json({'code': 400, 'status': false, 'message':'User already registered .'})
+        } else{
+           
+            let password = req.body.password;
+            password = await Encrypt.cryptPassword(password);
+            console.log("password: " + password);
+
+            var sql = "INSERT INTO users(first_name,last_name,email,address,city,state,country,zip_code,mobile,password) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            var values=
+                [req.body.first_name,req.body.last_name,req.body.email,req.body.address,req.body.city,req.body.state,req.body.country,req.body.zip_code,req.body.mobile,password];
+            con.query(sql, values,function(err,result){
+                if (err) throw err;
+                console.log("insert successfully"+result);
+                res.json({'code': 200, 'status': true, 'message':'User registered successfully.'})
+            });
+        }
+    });
 }
+
 postLogin = function(req, res) {
-    console.log('req', req.body);
-    con.query( 'SELECT * FROM users WHERE email = "'+req.body.email+'" AND password = "'+req.body.password+'"', function(err, result_data) {
-        console.log(result_data);
+    // console.log('req', req.body);
+    con.query( 'SELECT * FROM users WHERE email = "'+req.body.email+'"', async function(err, result_data) {
+        // console.log(result_data, req.body.password, result_data[0]['password']);
         if (err)
         {
             console.log(err);
@@ -67,10 +56,18 @@ postLogin = function(req, res) {
         }
         if(result_data.length == 0) {
             console.log("user not exist");
-            res.json({'code': 400, 'status': false, 'message':'User not exist .'})
+            res.json({'code': 400, 'status': false, 'message':'Email is incorrect.'})
         } else{
+            const matchPassword = await Encrypt.comparePassword(req.body.password, result_data[0]['password']);
+            console.log('match', matchPassword);
+            if(matchPassword) {
                 res.json({'code': 200, 'status': true, 'message':'User login successfully.'})
+            }
+            else {
+                res.json({'code': 400, 'status': false, 'message':'Password is incorrect.'})
+            }
         }
     });
 }
+
 module.exports = { postRegister, getUserList,postLogin}
