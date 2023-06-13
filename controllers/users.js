@@ -1,7 +1,8 @@
 const { user } = require('../config');
 const con = require('../database');
 const { Encrypt } = require('../auth');
-
+const jwt= require('jsonwebtoken');
+const secretkey='secretkey';
 
 // function getUserList(req, res, next) {
 getUserList = function(req, res) {
@@ -68,6 +69,14 @@ postLogin = function(req, res) {
             }
         }
     });
+    jwt.sign({user},secretkey,{expiresIn:3600},(err,token)=>{
+        response.json({
+            token
+        })
+    })
+    function tokenVerify(req,resp,next){
+        
+    }
 }
 
 module.exports = { postRegister, getUserList,postLogin}

@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-
 const users = require('./controllers/users');
 const movies = require('./controllers/movies');
-
 router.post('/user-list', users.getUserList);
 router.post('/register',users.postRegister);
 router.post('/login',users.postLogin);
 router.get('/movies', movies.getMovies);
-
+router.get('/movies-home', movies.getMoviesHome);
+router.get('/movies-popular', movies.getMoviesPopular);
+router.get('/movies-top-rated', movies.getMoviesTopRated);
+router.get('/movies-upcoming', movies.getMoviesUpcoming);
 module.exports = router;
