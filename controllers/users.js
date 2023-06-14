@@ -2,7 +2,7 @@ const { user } = require('../config');
 const con = require('../database');
 const { Encrypt } = require('../auth');
 const jwt= require('jsonwebtoken');
-const secretkey='secretkey';
+const secretkey = 'secretkeyFGFDGDFDGF';
 
 // function getUserList(req, res, next) {
 getUserList = function(req, res) {
@@ -59,24 +59,35 @@ postLogin = function(req, res) {
             console.log("user not exist");
             res.json({'code': 400, 'status': false, 'message':'Email is incorrect.'})
         } else{
+            let data = {
+                email: result_data[0]['email'],
+                user_id: result_data[0]['user_id']
+            }
+            let token = jwt.sign(data,secretkey,{expiresIn:3600});
+            // console.log('token', token)
             const matchPassword = await Encrypt.comparePassword(req.body.password, result_data[0]['password']);
             console.log('match', matchPassword);
             if(matchPassword) {
-                res.json({'code': 200, 'status': true, 'message':'User login successfully.'})
+                res.json({'code': 200, 'status': true, 'message':'User login successfully.', 'token': token})
             }
             else {
                 res.json({'code': 400, 'status': false, 'message':'Password is incorrect.'})
             }
         }
     });
-    jwt.sign({user},secretkey,{expiresIn:3600},(err,token)=>{
-        response.json({
-            token
-        })
-    })
-    function tokenVerify(req,resp,next){
+    
+    // function tokenVerify(req,resp,next){
         
-    }
+    // }
+}
+postProfile = function(req, res) {
+    // console.log('req', req.body);
+    
+    con.query( 'SELECT * FROM users')
+}
+postLogout = function(req, res) {
+
 }
 
-module.exports = { postRegister, getUserList,postLogin}
+
+module.exports = { postRegister, getUserList,postLogin,postProfile,postLogout}

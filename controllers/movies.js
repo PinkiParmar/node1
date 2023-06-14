@@ -17,7 +17,7 @@ getMovies = function(req, res) {
     });
 }
 getMoviesHome = function(req, res) {
-    let sql = "Select * from movies LIMIT 4, 8";
+    let sql = "Select * from movies ORDER BY id DESC LIMIT 4";
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Result: " + JSON.stringify( result));

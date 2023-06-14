@@ -5,6 +5,8 @@ const movies = require('./controllers/movies');
 router.post('/user-list', users.getUserList);
 router.post('/register',users.postRegister);
 router.post('/login',users.postLogin);
+router.post('/logout',users.postLogout);
+router.post('/profile',users.postProfile);
 router.get('/movies', movies.getMovies);
 router.get('/movies-home', movies.getMoviesHome);
 router.get('/movies-popular', movies.getMoviesPopular);
