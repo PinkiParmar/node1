@@ -63,7 +63,7 @@ postLogin = function(req, res) {
                 email: result_data[0]['email'],
                 user_id: result_data[0]['user_id']
             }
-            let token = jwt.sign(data,secretkey,{expiresIn:3600});
+            let token = jwt.sign(data,secretkey,{expiresIn:300});
             // console.log('token', token)
             const matchPassword = await Encrypt.comparePassword(req.body.password, result_data[0]['password']);
             console.log('match', matchPassword);
