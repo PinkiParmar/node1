@@ -42,14 +42,32 @@ getMoviesUpcoming = function (req, res) {
         res.json(result);
     });
 }
-getSearch =
-    function (req, res) {
-        let keyword = req.body.keyword;
-        let sql = "Select * from movies WHERE movie_name Like '%" + keyword + "%'";
-        con.query(sql, function (err, result) {
-            if (err) throw err;
-            console.log("Result: " + JSON.stringify(result));
-            res.json(result);
-        });
-    }
-module.exports={getMovies, getMoviesHome, getMoviesPopular, getMoviesTopRated, getMoviesUpcoming, getSearch}
+// getSearchMovieByName =function (req, res) {
+//         let keyword = req.body.keyword;
+//         let sql = "Select * from movies WHERE movie_name Like '%" + keyword + "%'";
+//         con.query(sql, function (err, result) {
+//             if (err) throw err;
+//             console.log("Result: " + JSON.stringify(result));
+//             res.json(result);
+//         });
+//     }
+//     getSearchMovieByCate =function (req, res) {
+//         let keyword = req.body.keyword;
+//         let sql = "Select * from movies WHERE category Like '%" + keyword + "%'";
+//         con.query(sql, function (err, result) {
+//             if (err) throw err;
+//             console.log("Result: " + JSON.stringify(result));
+//             res.json(result);
+//         });
+//     }
+//     getSearchMovieByStarCast =function (req, res) {
+//         let keyword = req.body.keyword;
+//         let sql = "Select * from movies WHERE star_cast Like '%" + keyword + "%'";
+//         con.query(sql, function (err, result) {
+//             if (err) throw err;
+//             console.log("Result: " + JSON.stringify(result));
+//             res.json(result);
+//         });
+//     }
+    
+module.exports={getMovies, getMoviesHome, getMoviesPopular, getMoviesTopRated, getMoviesUpcoming }

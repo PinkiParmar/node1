@@ -104,41 +104,40 @@ postUpdateProfile = function (req, res){
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Result: " + JSON.stringify(result));
-        res.json(result);
+        res.json({"message":"Record Updated Successfully."});
     });
 }
-postForgetPassword=function(req,res){
-    const password=req.body.password;
-    const email=req.body.email;
-    const sql="UPDATE users SET password ='"+password+" WHERE email ='"+email+"'";
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Result: " + JSON.stringify(result));
-        res.json(result);
-    });
-}
-postSetPassword=function(req,res){
-    const password=req.body.password;
-    const email=req.body.email;
-    const id=req.body.id;
-    const sql='UPDATE users SET password ='+password+', email= '+ email+'WHERE id ='+id;
-    con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Result: " + JSON.stringify(result));
-        res.json(result);
-    }); 
-}
+// postForgetPassword=function(req,res){
+//     const password=req.body.password;
+//     const email=req.body.email;
+//     const sql="UPDATE users SET password ='"+password+" WHERE email ='"+email+"'";
+//     con.query(sql, function (err, result) {
+//         if (err) throw err;
+//         console.log("Result: " + JSON.stringify(result));
+//         res.json(result);
+//     });
+// }
+// postSetPassword=function(req,res){
+//     const password=req.body.password;
+//     const email=req.body.email;
+//     const id=req.body.id;
+//     const sql='UPDATE users SET password ='+password+', email= '+ email+'WHERE id ='+id;
+//     con.query(sql, function (err, result) {
+//         if (err) throw err;
+//         console.log("Result: " + JSON.stringify(result));
+//         res.json(result);
+//     }); 
+// }
 postReSetPassword=function(req,res){
     const password=req.body.password;
-    const cpassword=req.body.cpassword;
     const email=req.body.email;
     const id=req.body.id;
-    const sql='UPDATE users SET password ='+password+', email= '+ email+'WHERE id ='+id;
+    const newPassword=req.body.newPassword;
+    const sql='UPDATE users SET password ='+password+', email= '+ email+' ,newPassword='+newPassword+'WHERE id ='+id;
     con.query(sql, function (err, result) {
         if (err) throw err;
         console.log("Result: " + JSON.stringify(result));
-        res.json(result);
+        res.json({"message":"Password verify & reset"});
     }); 
-
 }
-module.exports = { postRegister, getUserList, postLogin,getViewProfile ,postUpdateProfile,postForgetPassword,postSetPassword,postReSetPassword}
+module.exports = { postRegister, getUserList, postLogin,getViewProfile ,postUpdateProfile,postReSetPassword}
