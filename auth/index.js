@@ -7,12 +7,10 @@ exports.Encrypt = {
         .then((salt => bcrypt.hash(password, salt)))
         .then(hash => hash),
     
-        comparePassword: (password, hashPassword) =>
+    comparePassword: (password, hashPassword) =>
             bcrypt.compare(password, hashPassword)
             .then(resp => resp)
-    
     }
-
 // exports.cryptPassword = async function(password) {console.log('pwd', password);
 //      bcrypt
 //    .genSalt(10)
