@@ -10,7 +10,7 @@ router.post('/login',users.postLogin);
 router.get('/view-profile',reqFilter, users.getViewProfile);
 router.post('/update-profile',reqFilter, users.postUpdateProfile);
 router.post('/forget-password',users.postForgetPassword);
-// router.post('/set-password',users.postSetPassword);
+router.post('/set-new-password',users.postSetNewPassword);
  router.post('/re-set-password',users.postReSetPassword);
 router.get('/movies-home',reqFilter, movies.getMoviesHome);
 router.get('/movies-popular',reqFilter, movies.getMoviesPopular);
