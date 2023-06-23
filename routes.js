@@ -13,11 +13,12 @@ router.post('/forget-password',users.postForgetPassword);
 router.post('/set-new-password',users.postSetNewPassword);
  router.post('/re-set-password',users.postReSetPassword);
 router.get('/movies-home',reqFilter, movies.getMoviesHome);
+router.get('/movies',reqFilter, movies.getMovies);
 router.get('/movies-popular',reqFilter, movies.getMoviesPopular);
 router.get('/movies-top-rated',reqFilter, movies.getMoviesTopRated);
 router.get('/movies-upcoming',reqFilter, movies.getMoviesUpcoming);
-//router.post('/search', movies.getSearchMovieByName);
-//router.post('/search', movies.getSearchMovieByCate);
-//router.post('/search', movies.getSearchMovieByStarCast);
+router.get('/search-name', movies.getSearchMovieByName);
+router.get('/search-category', movies.getSearchMovieByCate);
+router.get('/search-star-cast', movies.getSearchMovieByStarCast);
 
 module.exports = router;
